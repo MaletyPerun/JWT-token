@@ -1,0 +1,44 @@
+#spring:
+#  jpa:
+#    hibernate:
+#      ddl-auto: create
+#      show-sql: true
+#      defer-datasource-initialization: true
+##  datasource:
+##    initialization-mode: always
+#
+#  datasource:
+#    # ImMemory
+#    url: jdbc:h2:mem:JWT-token
+#    #    tcp: jdbc:h2:tcp://localhost:9092/mem:JWT-token
+#    username: sa
+#    password:
+#  sql:
+#    init:
+#      mode: always
+
+spring:
+  jpa:
+    show-sql: true
+    open-in-view: false
+    # https://stackoverflow.com/a/67678945/548473
+    defer-datasource-initialization: true
+    hibernate:
+      ddl-auto: create
+    properties:
+      #  http://docs.jboss.org/hibernate/orm/5.3/userguide/html_single/Hibernate_User_Guide.html#configurations
+      hibernate:
+        format_sql: true
+        default_batch_fetch_size: 20
+        # https://stackoverflow.com/questions/21257819/what-is-the-difference-between-hibernate-jdbc-fetch-size-and-hibernate-jdbc-batc
+        jdbc.batch_size: 20
+  datasource:
+    # ImMemory
+    url: jdbc:h2:mem:JWT-token
+    #    tcp: jdbc:h2:tcp://localhost:9092/mem:JWT-token
+    username: sa
+    password:
+
+jwt:
+  sessionTime: 120000000
+  secret: secret_key
