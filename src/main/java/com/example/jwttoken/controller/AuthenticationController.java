@@ -40,6 +40,6 @@ public class AuthenticationController {
         // при создании токена в него кладется username как Subject и список authorities как кастомный claim
         String jwt = jwtTokenUtil.generateToken((UserDetails) authentication.getPrincipal());
 
-        return new AuthResponse(jwt);
+        return new AuthResponse("Bearer_".concat(jwt));
     }
 }

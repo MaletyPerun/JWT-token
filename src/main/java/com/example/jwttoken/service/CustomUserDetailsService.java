@@ -1,9 +1,8 @@
 package com.example.jwttoken.service;
 
-import com.example.jwttoken.model.MyUser;
+import com.example.jwttoken.model.User;
 import com.example.jwttoken.repository.MyUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -16,11 +15,11 @@ public class CustomUserDetailsService implements UserDetailsService {
     private MyUserRepository dao;
     @Override
     public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
-        MyUser myUser= dao.findByLogin(userName);
+        User myUser= dao.findByLogin(userName);
         if (myUser == null) {
             throw new UsernameNotFoundException("Unknown user: "+userName);
         }
-        UserDetails user = User.builder()
+        UserDetails user = org.springframework.security.core.userdetails.User.builder()
                 .username(myUser.getLogin())
                 .password(myUser.getPassword())
                 .roles(myUser.getRole())

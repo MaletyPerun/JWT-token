@@ -34,7 +34,7 @@ public class JWTFilter extends OncePerRequestFilter {
         String username = null;
         String jwt = null;
 
-        if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
+        if (authorizationHeader != null && authorizationHeader.startsWith("Bearer_")) {
             jwt = authorizationHeader.substring(7);
             //если подпись не совпадает с вычисленной, то SignatureException
             //если подпись некорректная (не парсится) то MalformedJwtException
