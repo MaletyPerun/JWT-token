@@ -16,17 +16,17 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     long id;
 
-    @Column(name = "login", nullable = false)
+    @Column(name = "name", nullable = false)
     @NotBlank
-    private String login;
+    private String name;
 
     @Column(name = "password", nullable = false)
     @NotBlank
     private String password;
 
-    @Column(name = "position", nullable = false)
-    @NotBlank
-    private String position;
+//    @Column(name = "position", nullable = false)
+//    @NotBlank
+//    private String position;
 
     @Column(name = "role", nullable = false)
     @NotBlank

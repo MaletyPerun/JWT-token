@@ -1,3 +1,3 @@
-insert into users(login, position, password, role) values('user', '1', 'password', 'USER');
-insert into users( login, position, password, role) values('admin', '2', 'password', 'ADMIN');
+insert into users(name, password, role) values('user', 'password', 'USER');
+insert into users(name, password, role) values('admin', 'password', 'ADMIN');
 

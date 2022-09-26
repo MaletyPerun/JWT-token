@@ -26,7 +26,7 @@ public class JWTUtil {
     // генерация токена (кладем в него имя пользователя и authorities)
     public String generateToken(UserDetails userDetails) {
         Map<String, Object> claims = new HashMap<>();
-        String commaSeparatedListOfAuthorities=  userDetails.getAuthorities().stream().map(a->a.getAuthority()).collect(Collectors.joining(","));
+        String commaSeparatedListOfAuthorities = userDetails.getAuthorities().stream().map(a -> a.getAuthority()).collect(Collectors.joining(","));
         claims.put("authorities", commaSeparatedListOfAuthorities);
         return createToken(claims, userDetails.getUsername());
     }
@@ -39,14 +39,13 @@ public class JWTUtil {
     //извлечение authorities (внутри валидация токена)
     public String extractAuthorities(String token) {
         Function<Claims, String> claimsListFunction = claims -> {
-            return (String)claims.get("authorities");
+            return (String) claims.get("authorities");
         };
         return extractClaim(token, claimsListFunction);
     }
 
 
-
-    private  <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
+    private <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
         final Claims claims = extractAllClaims(token);
         return claimsResolver.apply(claims);
     }

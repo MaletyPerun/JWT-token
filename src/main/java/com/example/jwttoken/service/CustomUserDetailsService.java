@@ -1,7 +1,7 @@
 package com.example.jwttoken.service;
 
 import com.example.jwttoken.model.User;
-import com.example.jwttoken.repository.MyUserRepository;
+import com.example.jwttoken.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -12,18 +12,19 @@ import org.springframework.stereotype.Service;
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
     @Autowired
-    private MyUserRepository dao;
+    private UserRepository repository;
+
     @Override
     public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
-        User myUser= dao.findByLogin(userName);
-        if (myUser == null) {
-            throw new UsernameNotFoundException("Unknown user: "+userName);
+        User user = repository.findByName(userName);
+        if (user == null) {
+            throw new UsernameNotFoundException("Unknown user: " + userName);
         }
-        UserDetails user = org.springframework.security.core.userdetails.User.builder()
-                .username(myUser.getLogin())
-                .password(myUser.getPassword())
-                .roles(myUser.getRole())
+        UserDetails userDet = org.springframework.security.core.userdetails.User.builder()
+                .username(user.getName())
+                .password(user.getPassword())
+                .roles(user.getRole())
                 .build();
-        return user;
+        return userDet;
     }
 }

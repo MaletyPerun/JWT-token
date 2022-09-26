@@ -1,4 +1,5 @@
 package com.example.jwttoken.security;
+
 public class AuthRequest {
     private String name;
     private String password;

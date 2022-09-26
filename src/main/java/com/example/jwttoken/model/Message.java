@@ -15,6 +15,7 @@ import javax.validation.constraints.NotBlank;
 public class Message {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonIgnore
     long id;
 
     @Column(name = "textMessage", nullable = false)
@@ -26,4 +27,9 @@ public class Message {
     @JsonIgnore
     @ToString.Exclude
     private User user;
+
+    public Message(String textMessage, User user) {
+        this.textMessage = textMessage;
+        this.user = user;
+    }
 }
