@@ -11,6 +11,6 @@ import java.util.List;
 
 @Repository
 public interface MessageRepository extends JpaRepository<Message, Long> {
-    @Query("SELECT m FROM Message m ORDER BY m.id DESC LIMIT count:=loadCount")
+    @Query("SELECT m FROM Message m ORDER BY m.id DESC")
     List<Message> loadHistory(int loadCount);
 }

@@ -15,6 +15,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
 import java.net.URI;
+import java.util.Arrays;
 import java.util.List;
 
 @RestController
@@ -23,22 +24,17 @@ public class MessageController {
     @Autowired
     private MessageService service;
 
-//    @Autowired
-//    private JWTUtil jwtTokenUtil;
-
     @PostMapping(value = "/message", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Message> sendMessage(@RequestBody MessageTo mesTo) {
-//        mesTo.getTextMessage().startsWith("history ") ?
-        List<Message> messages;
+    public List<Message> sendMessage(@RequestBody MessageTo mesTo) {
         if (mesTo.getTextMessage().startsWith("history ")) {
-            messages = service.loadHistory(mesTo.getTextMessage().split(" "));
+            return service.loadHistory(mesTo.getTextMessage().split(" "));
         } else {
-            messages = service.save(mesTo);
+            return Arrays.asList(service.save(mesTo));
+//            URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
+//                    .path("/message/{id}")
+//                    .buildAndExpand(messages.get(0).getId()).toUri();
+//            return ResponseEntity.created(uriOfNewResource).body(messages);
         }
-        URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
-                .path("/message/{id}")
-                .buildAndExpand(created.getId()).toUri();
-        return ResponseEntity.created(uriOfNewResource).body(created);
     }
 
     @GetMapping("/")

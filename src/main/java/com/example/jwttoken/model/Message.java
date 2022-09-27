@@ -2,6 +2,7 @@ package com.example.jwttoken.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
@@ -12,13 +13,14 @@ import javax.validation.constraints.NotBlank;
 @Table(name = "message")
 @Getter
 @Setter
+@NoArgsConstructor
 public class Message {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @JsonIgnore
     long id;
 
-    @Column(name = "textMessage", nullable = false)
+    @Column(name = "text_message", nullable = false)
     @NotBlank
     private String textMessage;
 
