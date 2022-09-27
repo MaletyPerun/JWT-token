@@ -24,20 +24,4 @@ public class MessageController {
             return Arrays.asList(service.save(mesTo));
         }
     }
-
-    @GetMapping("/")
-    public String hello() {
-        return "Hello";
-    }
-
-    @GetMapping("/user")
-    public String user() {
-        return "User";
-    }
-
-    @GetMapping("/admin")
-    public String admin() {
-        return "Admin";
-    }
-
 }
