@@ -1,22 +1,15 @@
 package com.example.jwttoken.security;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
+@AllArgsConstructor
 public class AuthResponse {
     private String jwtToken;
 
     public AuthResponse() {
     }
-
-    public AuthResponse(String jwtToken) {
-        this.jwtToken = jwtToken;
-    }
-
-    public String getJwtToken() {
-        return jwtToken;
-    }
-
-    public void setJwtToken(String jwtToken) {
-        this.jwtToken = jwtToken;
-    }
-
-
 }

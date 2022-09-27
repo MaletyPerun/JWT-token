@@ -24,10 +24,6 @@ public class User {
     @NotBlank
     private String password;
 
-//    @Column(name = "position", nullable = false)
-//    @NotBlank
-//    private String position;
-
     @Column(name = "role", nullable = false)
     @NotBlank
     private String role;
