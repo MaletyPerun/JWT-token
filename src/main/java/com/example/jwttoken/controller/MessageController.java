@@ -15,6 +15,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
 import java.net.URI;
+import java.util.List;
 
 @RestController
 public class MessageController {
@@ -27,9 +28,15 @@ public class MessageController {
 
     @PostMapping(value = "/message", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Message> sendMessage(@RequestBody MessageTo mesTo) {
-        Message created = service.save(mesTo);
+//        mesTo.getTextMessage().startsWith("history ") ?
+        List<Message> messages;
+        if (mesTo.getTextMessage().startsWith("history ")) {
+            messages = service.loadHistory(mesTo.getTextMessage().split(" "));
+        } else {
+            messages = service.save(mesTo);
+        }
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
-                .path("/{id}")
+                .path("/message/{id}")
                 .buildAndExpand(created.getId()).toUri();
         return ResponseEntity.created(uriOfNewResource).body(created);
     }
