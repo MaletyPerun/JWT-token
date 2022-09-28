@@ -9,17 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.*;
-import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -34,52 +26,65 @@ public class MessageControllerTest {
         headers.add("Authorization", "Bearer_" + authResponse.getJwtToken());
         MessageTo mes = new MessageTo("user", "Lorem ipsum");
         ResponseEntity<String> response = restTemplate.exchange("/message", HttpMethod.POST, new HttpEntity<>(mes, headers), String.class);
-        assertTrue(response.getBody().equals("[{\"textMessage\":\"Lorem ipsum\"}]"));
+        assertEquals("[{\"textMessage\":\"Lorem ipsum\"}]", response.getBody());
     }
 
-
     @Test
-    public void whenGetUser_thenCorrect() {
-
-        // готовый тест!!!
-
+    public void sendMessageWithEmptyText() {
         AuthResponse authResponse = getAuthHeaderForUser("user", "password");
         HttpHeaders headers = new HttpHeaders();
         headers.add("Authorization", "Bearer_" + authResponse.getJwtToken());
-        ResponseEntity<String> response = restTemplate.exchange("/user", HttpMethod.GET, new HttpEntity<>(headers), String.class);
-        assertTrue(response.getBody().equals("User"));
-        assertTrue(response.getStatusCode().equals(HttpStatus.OK));
-
+        MessageTo mes = new MessageTo("user", "");
+        ResponseEntity<String> response = restTemplate.exchange("/message", HttpMethod.POST, new HttpEntity<>(mes, headers), String.class);
+        assertEquals(response.getStatusCode(), HttpStatus.BAD_REQUEST);
     }
 
     @Test
-    public void whenGetAdmin_thenCorrect() {
-
-
-        AuthResponse authResponse = getAuthHeaderForUser("admin", "password");
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("Authorization", "Bearer_" + authResponse.getJwtToken());
-
-        ResponseEntity<String> response = restTemplate.exchange("/admin", HttpMethod.GET, new HttpEntity<>(headers), String.class);
-
-        assertTrue(response.getBody().equals("Admin"));
-
-    }
-
-    @Test
-    public void givenUserCredentials_whenGetAdmin_thenCorrect() {
-
-
+    public void loadHistory() {
         AuthResponse authResponse = getAuthHeaderForUser("user", "password");
-
         HttpHeaders headers = new HttpHeaders();
         headers.add("Authorization", "Bearer_" + authResponse.getJwtToken());
+        MessageTo mes = new MessageTo("user", "history 2");
+        ResponseEntity<String> response = restTemplate.exchange("/message", HttpMethod.POST, new HttpEntity<>(mes, headers), String.class);
+        assertEquals("[{\"textMessage\":\"Lorem ipsum 2\"},{\"textMessage\":\"Lorem ipsum 1\"}]", response.getBody());
+    }
 
-        ResponseEntity<String> response = restTemplate.exchange("/admin", HttpMethod.GET, new HttpEntity<>(headers), String.class);
+    @Test
+    public void loadHistoryWithNotInt() {
+        AuthResponse authResponse = getAuthHeaderForUser("user", "password");
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Authorization", "Bearer_" + authResponse.getJwtToken());
+        MessageTo mes = new MessageTo("user", "history 2.5");
+        ResponseEntity<String> response = restTemplate.exchange("/message", HttpMethod.POST, new HttpEntity<>(mes, headers), String.class);
+        assertEquals(response.getStatusCode(), HttpStatus.CONFLICT);
+    }
 
+    @Test
+    public void loadHistoryWithNegativeInt() {
+        AuthResponse authResponse = getAuthHeaderForUser("user", "password");
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Authorization", "Bearer_" + authResponse.getJwtToken());
+        MessageTo mes = new MessageTo("user", "history -5");
+        ResponseEntity<String> response = restTemplate.exchange("/message", HttpMethod.POST, new HttpEntity<>(mes, headers), String.class);
+        assertEquals(response.getStatusCode(), HttpStatus.CONFLICT);
+    }
+
+    @Test
+    public void sendOrLoadForbidden() {
+        HttpHeaders headers = new HttpHeaders();
+        MessageTo mes = new MessageTo("user", "history 5");
+        ResponseEntity<String> response = restTemplate.exchange("/message", HttpMethod.POST, new HttpEntity<>(mes, headers), String.class);
         assertEquals(response.getStatusCode(), HttpStatus.FORBIDDEN);
+    }
 
+    @Test
+    public void sendOrLoadWithWrongName() {
+        AuthResponse authResponse = getAuthHeaderForUser("user", "password");
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Authorization", "Bearer_" + authResponse.getJwtToken());
+        MessageTo mes = new MessageTo("admin", "Lorem ipsum");
+        ResponseEntity<String> response = restTemplate.exchange("/message", HttpMethod.POST, new HttpEntity<>(mes, headers), String.class);
+        assertEquals(response.getStatusCode(), HttpStatus.UNAUTHORIZED);
     }
 
     private AuthResponse getAuthHeaderForUser(String name, String password) {
@@ -87,9 +92,8 @@ public class MessageControllerTest {
         AuthRequest authRequest = new AuthRequest();
         authRequest.setName(name);
         authRequest.setPassword(password);
-        AuthResponse authResponse = restTemplate.postForObject("/authenticate", authRequest, AuthResponse.class);
 
-        return authResponse;
+        return restTemplate.postForObject("/authenticate", authRequest, AuthResponse.class);
     }
 
 }

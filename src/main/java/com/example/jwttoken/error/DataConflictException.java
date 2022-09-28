@@ -1,4 +1,4 @@
-package com.example.jwttoken;
+package com.example.jwttoken.error;
 
 public class DataConflictException extends RuntimeException {
     public DataConflictException(String msg) {

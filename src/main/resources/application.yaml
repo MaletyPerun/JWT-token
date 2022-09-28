@@ -1,22 +1,3 @@
-#spring:
-#  jpa:
-#    hibernate:
-#      ddl-auto: create
-#      show-sql: true
-#      defer-datasource-initialization: true
-##  datasource:
-##    initialization-mode: always
-#
-#  datasource:
-#    # ImMemory
-#    url: jdbc:h2:mem:JWT-token
-#    #    tcp: jdbc:h2:tcp://localhost:9092/mem:JWT-token
-#    username: sa
-#    password:
-#  sql:
-#    init:
-#      mode: always
-
 spring:
   jpa:
     show-sql: true
@@ -33,9 +14,7 @@ spring:
         # https://stackoverflow.com/questions/21257819/what-is-the-difference-between-hibernate-jdbc-fetch-size-and-hibernate-jdbc-batc
         jdbc.batch_size: 20
   datasource:
-    # ImMemory
-    url: jdbc:h2:mem:JWT-token
-    #    tcp: jdbc:h2:tcp://localhost:9092/mem:JWT-token
+      url: jdbc:h2:mem:JWT-token
     username: sa
     password:
 

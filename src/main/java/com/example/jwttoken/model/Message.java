@@ -34,4 +34,10 @@ public class Message {
         this.textMessage = textMessage;
         this.user = user;
     }
+
+    public Message(long id, String textMessage, User user) {
+        this.id = id;
+        this.textMessage = textMessage;
+        this.user = user;
+    }
 }
