@@ -2,6 +2,7 @@ package com.example.jwttoken.controller;
 
 import com.example.jwttoken.security.AuthRequest;
 import com.example.jwttoken.security.AuthResponse;
+import com.example.jwttoken.to.MessageTo;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,25 +32,23 @@ public class MessageControllerTest {
         AuthResponse authResponse = getAuthHeaderForUser("user", "password");
         HttpHeaders headers = new HttpHeaders();
         headers.add("Authorization", "Bearer_" + authResponse.getJwtToken());
-        MultiValueMap<String, String> body = new LinkedMultiValueMap();
-        body.add("userName", "user");
-        body.add("textMessage", "Lorem ipsum");
-        ResponseEntity<String> response = restTemplate.exchange("/message", HttpMethod.POST, new HttpEntity<>(body, headers), String.class);
-        assertTrue(response.getBody().equals("Lorem ipsum"));
+        MessageTo mes = new MessageTo("user", "Lorem ipsum");
+        ResponseEntity<String> response = restTemplate.exchange("/message", HttpMethod.POST, new HttpEntity<>(mes, headers), String.class);
+        assertTrue(response.getBody().equals("[{\"textMessage\":\"Lorem ipsum\"}]"));
     }
 
 
     @Test
     public void whenGetUser_thenCorrect() {
 
-        AuthResponse authResponse = getAuthHeaderForUser("user", "password");
+        // готовый тест!!!
 
+        AuthResponse authResponse = getAuthHeaderForUser("user", "password");
         HttpHeaders headers = new HttpHeaders();
         headers.add("Authorization", "Bearer_" + authResponse.getJwtToken());
-
         ResponseEntity<String> response = restTemplate.exchange("/user", HttpMethod.GET, new HttpEntity<>(headers), String.class);
-
         assertTrue(response.getBody().equals("User"));
+        assertTrue(response.getStatusCode().equals(HttpStatus.OK));
 
     }
 

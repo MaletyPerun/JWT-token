@@ -4,6 +4,7 @@ import com.example.jwttoken.model.Message;
 import com.example.jwttoken.service.MessageService;
 import com.example.jwttoken.to.MessageTo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,5 +24,10 @@ public class MessageController {
         } else {
             return Arrays.asList(service.save(mesTo));
         }
+    }
+
+    @GetMapping("/user")
+    public String user() {
+        return "User";
     }
 }

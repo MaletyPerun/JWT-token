@@ -35,10 +35,10 @@ public class MessageService {
         int loadCount = Arrays.stream(s).skip(1)
                 .mapToInt(Integer::parseInt)
                 .findFirst()
-                .orElseThrow(() -> new DataConflictException("вводимое число должно быть целым и положительным"));
+                .orElseThrow(() -> new DataConflictException("Вводимое число должно быть целым и положительным"));
 
         if (loadCount <= 0) {
-            throw new DataConflictException("вводимое число должно быть целым и положительным");
+            throw new DataConflictException("Вводимое число должно быть целым и положительным");
         }
 
         List<Message> messages = messageRepository.loadHistory(loadCount);
