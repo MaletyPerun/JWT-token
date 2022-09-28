@@ -24,6 +24,7 @@ public class Message {
     @NotBlank
     private String textMessage;
 
+    // использование forieng key на уровне аннотаций
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     @JsonIgnore

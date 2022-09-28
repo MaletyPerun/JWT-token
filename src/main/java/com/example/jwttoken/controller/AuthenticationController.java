@@ -26,7 +26,7 @@ public class AuthenticationController {
     @Autowired
     private JWTUtil jwtTokenUtil;
 
-
+    // эндпоинт для получения сгенерированного токена
     @PostMapping("/authenticate")
     @ResponseStatus(HttpStatus.OK)
     public AuthResponse createAuthenticationToken(@RequestBody AuthRequest authRequest) {

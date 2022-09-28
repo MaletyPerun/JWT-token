@@ -18,7 +18,7 @@ import java.util.List;
 
 @Component
 public class JWTFilter extends OncePerRequestFilter {
-
+    // фильтр, который проверяет каждый запрос на наличие и содержание заголовка Authorization
     @Autowired
     private JWTUtil jwtUtil;
 
@@ -34,6 +34,7 @@ public class JWTFilter extends OncePerRequestFilter {
         String username = null;
         String jwt = null;
 
+        // получение имена пользователя из токена
         if (authorizationHeader != null && authorizationHeader.startsWith("Bearer_")) {
             jwt = authorizationHeader.substring(7);
             //если подпись не совпадает с вычисленной, то SignatureException
@@ -43,6 +44,7 @@ public class JWTFilter extends OncePerRequestFilter {
         }
 
 
+        // выдача прав доступа в соответствии с ролью пользователя
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
 
             String commaSeparatedListOfAuthorities = jwtUtil.extractAuthorities(jwt);

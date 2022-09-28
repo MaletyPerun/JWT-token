@@ -10,7 +10,6 @@ import javax.validation.constraints.NotBlank;
 @Setter
 @AllArgsConstructor
 public class MessageTo {
-
     @NotBlank
     private String userName;
 

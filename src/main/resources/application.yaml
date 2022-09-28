@@ -15,8 +15,8 @@ spring:
         jdbc.batch_size: 20
   datasource:
       url: jdbc:h2:mem:JWT-token
-    username: sa
-    password:
+      username: sa
+      password:
 
 jwt:
   sessionTime: 120000000

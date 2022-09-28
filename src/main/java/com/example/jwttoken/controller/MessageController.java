@@ -18,6 +18,7 @@ public class MessageController {
     @Autowired
     private MessageService service;
 
+    // эндпоинт для записи в БД и выводы из БД последних сообщений
     @PostMapping(value = "/message", consumes = MediaType.APPLICATION_JSON_VALUE)
     public List<Message> sendMessage(@Valid @RequestBody MessageTo mesTo, HttpServletRequest request) {
         if (mesTo.getTextMessage().startsWith("history ")) {

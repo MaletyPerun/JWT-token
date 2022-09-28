@@ -14,6 +14,9 @@ import java.sql.SQLException;
 @EnableCaching
 public class AppConfig {
 
+    // подключение к БД H2 через tcp соединение
+    // адрес
+    // tcp: jdbc:h2:tcp://localhost:9092/mem:JWT-token
     @Profile("!test")
     @Bean(initMethod = "start", destroyMethod = "stop")
     Server h2Server() throws SQLException {

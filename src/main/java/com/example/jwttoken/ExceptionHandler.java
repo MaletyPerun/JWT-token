@@ -8,7 +8,6 @@ import org.springframework.boot.web.error.ErrorAttributeOptions;
 import org.springframework.boot.web.servlet.error.ErrorAttributes;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
@@ -20,18 +19,19 @@ import static org.springframework.boot.web.error.ErrorAttributeOptions.Include.M
 @RestControllerAdvice
 @AllArgsConstructor
 @Slf4j
-public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
+public class ExceptionHandler extends ResponseEntityExceptionHandler {
 
+    // перехватчик исключений (в том числе и кастомных)
     private final ErrorAttributes errorAttributes;
 
 
-    @ExceptionHandler(DataConflictException.class)
+    @org.springframework.web.bind.annotation.ExceptionHandler(DataConflictException.class)
     public ResponseEntity<?> dataConflictException(WebRequest request, DataConflictException ex) {
         log.error("DataConflictException: {}", ex.getMessage());
         return createResponseEntity(request, ErrorAttributeOptions.of(MESSAGE), null, HttpStatus.CONFLICT);
     }
 
-    @ExceptionHandler(CustomAuthenticationException.class)
+    @org.springframework.web.bind.annotation.ExceptionHandler(CustomAuthenticationException.class)
     public ResponseEntity<?> customAuthenticationException(WebRequest request, CustomAuthenticationException ex) {
         log.error("DataConflictException: {}", ex.getMessage());
         return createResponseEntity(request, ErrorAttributeOptions.of(MESSAGE), null, HttpStatus.UNAUTHORIZED);
