@@ -21,7 +21,7 @@ import static org.springframework.boot.web.error.ErrorAttributeOptions.Include.M
 @Slf4j
 public class ExceptionHandler extends ResponseEntityExceptionHandler {
 
-    // перехватчик исключений (в том числе и кастомных)
+    // перехватчик кастомных исключений
     private final ErrorAttributes errorAttributes;
 
 
