@@ -21,3 +21,6 @@ spring:
 jwt:
   sessionTime: 120000000
   secret: secretkeysecretkeysecretkeysecretkeysecretkey
+
+server:
+  port: 3000

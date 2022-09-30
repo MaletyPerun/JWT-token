@@ -55,7 +55,7 @@ API:
 
 #### получить JWT Token для User
 
-`curl --location --request POST 'http://localhost:8080/authenticate' \
+`curl --location --request POST 'http://localhost:3000/authenticate' \
 --header 'Content-Type: application/json' \
 --data-raw '{
 "name": "user",
@@ -65,7 +65,7 @@ API:
 (здесь полученный токен использовать в заголовке Authorization к URL: localhost:8080/message)
 
 #### отправить сообщение с текстом от имени User (с учетом токена)
-`curl --location --request POST 'http://localhost:8080/message' \
+`curl --location --request POST 'http://localhost:3000/message' \
 --header 'Authorization: Bearer_*токен*' \
 --header 'Content-Type: application/json' \
 --data-raw '{
@@ -74,7 +74,7 @@ API:
 }'`
 
 #### загрузить последние 2 сообщения
-`curl --location --request POST 'http://localhost:8080/message' \
+`curl --location --request POST 'http://localhost:3000/message' \
 --header 'Authorization: Bearer_*токен*' \
 --header 'Content-Type: application/json' \
 --data-raw '{
